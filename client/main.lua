@@ -24,7 +24,7 @@ local function GetVehicleStatusList(plate)
     local retval = nil
     if VehicleStatus[plate] ~= nil then
         retval = VehicleStatus[plate]
-    end
+		end
     return retval
 end
 
@@ -1068,7 +1068,7 @@ end)
 
 CreateThread(function()
     while true do
-        Wait(1000)
+        Wait(10000)
         if (IsPedInAnyVehicle(PlayerPedId(), false)) then
             local veh = GetVehiclePedIsIn(PlayerPedId(),false)
             if not IsThisModelABicycle(GetEntityModel(veh)) and GetPedInVehicleSeat(veh, -1) == PlayerPedId() then
