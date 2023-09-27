@@ -60,136 +60,154 @@ local function DeleteTarget(id)
 end
 
 local function RegisterDutyTarget()
-    local coords = Config.Locations['duty']
-    local boxData = Config.Targets[dutyTargetBoxID] or {}
 
-    if boxData and boxData.created then
-        return
-    end
+	for k,v in pairs(Config.Locations) do
 
-    if PlayerJob.type ~= 'mechanic' then
-        return
-    end
+		local coords = Config.Locations[k]['duty']
+		local boxData = Config.Targets[dutyTargetBoxID] or {}
 
-    local label = Lang:t('labels.sign_in')
-    if onDuty then
-        label = Lang:t('labels.sign_off')
-    end
+		if boxData and boxData.created then
+			goto zcontinue
+		end
 
-    if Config.UseTarget then
-        exports['qb-target']:AddBoxZone(dutyTargetBoxID, coords, 1.5, 1.5, {
-            name = dutyTargetBoxID,
-            heading = 0,
-            debugPoly = false,
-            minZ = coords.z - 1.0,
-            maxZ = coords.z + 1.0,
-        }, {
-            options = {{
-                type = "server",
-                event = "QBCore:ToggleDuty",
-                label = label,
-            }},
-            distance = 2.0
-        })
+		if PlayerJob.name ~= k then
+			goto zcontinue
+		end
 
-        Config.Targets[dutyTargetBoxID] = {created = true}
-    else
-        local zone = BoxZone:Create(coords, 1.5, 1.5, {
-            name = dutyTargetBoxID,
-            heading = 0,
-            debugPoly = false,
-            minZ = coords.z - 1.0,
-            maxZ = coords.z + 1.0,
-        })
-        zone:onPlayerInOut(function (isPointInside)
-            if isPointInside then
-                exports['qb-core']:DrawText("[E] " .. label, 'left')
-            else
-                exports['qb-core']:HideText()
-            end
+		local label = Lang:t('labels.sign_in')
+		if onDuty then
+			label = Lang:t('labels.sign_off')
+		end
+		
 
-            isInsideDutyZone = isPointInside
-        end)
 
-        Config.Targets[dutyTargetBoxID] = {created = true, zone = zone}
-    end
+		if Config.UseTarget then
+			exports['qb-target']:AddBoxZone(dutyTargetBoxID, coords, 1.5, 1.5, {
+				name = dutyTargetBoxID,
+				heading = 0,
+				debugPoly = false,
+				minZ = coords.z - 1.0,
+				maxZ = coords.z + 1.0,
+			}, {
+				options = {{
+					type = "server",
+					event = "QBCore:ToggleDuty",
+					label = label,
+				}},
+				distance = 2.0
+			})
+
+			Config.Targets[dutyTargetBoxID] = {created = true}
+		else
+			local zone = BoxZone:Create(coords, 1.5, 1.5, {
+				name = dutyTargetBoxID,
+				heading = 0,
+				debugPoly = false,
+				minZ = coords.z - 1.0,
+				maxZ = coords.z + 1.0,
+			})
+			zone:onPlayerInOut(function (isPointInside)
+				if isPointInside then
+					exports['qb-core']:DrawText("[E] " .. label, 'left')
+				else
+					exports['qb-core']:HideText()
+				end
+
+				isInsideDutyZone = isPointInside
+			end)
+
+			Config.Targets[dutyTargetBoxID] = {created = true, zone = zone}
+		end
+		::zcontinue::
+	end
 end
 
 local function RegisterStashTarget()
-    local coords = Config.Locations['stash']
-    local boxData = Config.Targets[stashTargetBoxID] or {}
 
-    if boxData and boxData.created then
-        return
-    end
 
-    if PlayerJob.type ~= 'mechanic' then
-        return
-    end
+	for k,v in pairs(Config.Locations) do
 
-    if Config.UseTarget then
-        exports['qb-target']:AddBoxZone(stashTargetBoxID, coords, 1.5, 1.5, {
-            name = stashTargetBoxID,
-            heading = 0,
-            debugPoly = false,
-            minZ = coords.z - 1.0,
-            maxZ = coords.z + 1.0,
-        }, {
-            options = {{
-                type = "client",
-                event = "qb-mechanicjob:client:target:OpenStash",
-                label = Lang:t('labels.o_stash'),
-            }},
-            distance = 2.0
-        })
 
-        Config.Targets[stashTargetBoxID] = {created = true}
-    else
-        local zone = BoxZone:Create(coords, 1.5, 1.5, {
-            name = stashTargetBoxID,
-            heading = 0,
-            debugPoly = false,
-            minZ = coords.z - 1.0,
-            maxZ = coords.z + 1.0,
-        })
-        zone:onPlayerInOut(function (isPointInside)
-            if isPointInside then
-                exports['qb-core']:DrawText(Lang:t('labels.o_stash'), 'left')
-            else
-                exports['qb-core']:HideText()
-            end
+		local coords = Config.Locations[k]['stash']
+		local boxData = Config.Targets[stashTargetBoxID] or {}
 
-            isInsideStashZone = isPointInside
-        end)
+		if boxData and boxData.created then
+			goto zcontinue
+		end
 
-        Config.Targets[stashTargetBoxID] = {created = true, zone = zone}
-    end
+		if PlayerJob.name ~= k then
+			goto zcontinue
+		end
+		
+		if Config.UseTarget then
+			exports['qb-target']:AddBoxZone(stashTargetBoxID, coords, 1.5, 1.5, {
+				name = stashTargetBoxID,
+				heading = 0,
+				debugPoly = false,
+				minZ = coords.z - 1.0,
+				maxZ = coords.z + 1.0,
+			}, {
+				options = {{
+					type = "client",
+					event = "qb-mechanicjob:client:target:OpenStash",
+					label = Lang:t('labels.o_stash'),
+				}},
+				distance = 2.0
+			})
+
+			Config.Targets[stashTargetBoxID] = {created = true}
+		else
+			local zone = BoxZone:Create(coords, 1.5, 1.5, {
+				name = stashTargetBoxID,
+				heading = 0,
+				debugPoly = false,
+				minZ = coords.z - 1.0,
+				maxZ = coords.z + 1.0,
+			})
+			zone:onPlayerInOut(function (isPointInside)
+				if isPointInside then
+					exports['qb-core']:DrawText(Lang:t('labels.o_stash'), 'left')
+				else
+					exports['qb-core']:HideText()
+				end
+
+				isInsideStashZone = isPointInside
+			end)
+
+			Config.Targets[stashTargetBoxID] = {created = true, zone = zone}
+		end
+		::zcontinue::
+	end
 end
 
 local function RegisterGarageZone()
-    local coords = Config.Locations['vehicle']
-    local vehicleZone = BoxZone:Create(vector3(coords.x, coords.y, coords.z), 5, 15, {
-        name = 'vehicleZone',
-        heading = 340.0,
-        minZ = coords.z - 1.0,
-        maxZ = coords.z + 5.0,
-        debugPoly = false
-    })
+	for k,v in pairs(Config.Locations) do
 
-    vehicleZone:onPlayerInOut(function (isPointInside)
-        if isPointInside and onDuty then
-            local inVehicle = IsPedInAnyVehicle(PlayerPedId())
-            if inVehicle then
-                exports['qb-core']:DrawText(Lang:t('labels.h_vehicle'), 'left')
-            else
-                exports['qb-core']:DrawText(Lang:t('labels.g_vehicle'), 'left')
-            end
-        else
-            exports['qb-core']:HideText()
-        end
+		local coords = Config.Locations[k]['vehicle']
+		local vehicleZone = BoxZone:Create(vector3(coords.x, coords.y, coords.z), 5, 15, {
+			name = k..'vehicleZone',
+			heading = 340.0,
+			minZ = coords.z - 1.0,
+			maxZ = coords.z + 5.0,
+			debugPoly = false
+		})
 
-        isInsideGarageZone = isPointInside
-    end)
+		vehicleZone:onPlayerInOut(function (isPointInside)
+			if isPointInside and onDuty then
+				local inVehicle = IsPedInAnyVehicle(PlayerPedId())
+				if inVehicle then
+					exports['qb-core']:DrawText(Lang:t('labels.h_vehicle'), 'left')
+				else
+					exports['qb-core']:DrawText(Lang:t('labels.g_vehicle'), 'left')
+				end
+			else
+				exports['qb-core']:HideText()
+			end
+
+			isInsideGarageZone = isPointInside
+		end)
+		
+	end
 end
 
 function DestroyVehiclePlateZone(id)
@@ -625,13 +643,14 @@ local function UnattachVehicle()
 
 end
 
-local function SpawnListVehicle(model)
+local function SpawnListVehicle(model, PlayerJob)
     local coords = {
-        x = Config.Locations["vehicle"].x,
-        y = Config.Locations["vehicle"].y,
-        z = Config.Locations["vehicle"].z,
-        w = Config.Locations["vehicle"].w,
+        x = Config.Locations[PlayerJob]["vehicle"].x,
+        y = Config.Locations[PlayerJob]["vehicle"].y,
+        z = Config.Locations[PlayerJob]["vehicle"].z,
+        w = Config.Locations[PlayerJob]["vehicle"].w,
     }
+	QBCore.Debug(coords)
 
     QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
         local veh = NetToVeh(netId)
@@ -711,7 +730,7 @@ local function RepairPart(part)
                     StashItems[indx].amount = countitem
                 end
                 TriggerEvent('qb-vehicletuning:client:RepaireeePart', part)
-                TriggerServerEvent('qb-inventory:server:SaveStashItems', "mechanicstash", StashItems)
+                TriggerServerEvent('qb-inventory:server:SaveStashItems', "m_"..PlayerJob.name, StashItems)
                 SetTimeout(250, function()
                     PartsMenu()
                 end)
@@ -721,7 +740,7 @@ local function RepairPart(part)
         else
             QBCore.Functions.Notify(Lang:t('notifications.not_materials'), 'error')
         end
-    end, "mechanicstash")
+    end, "m_"..PlayerJob.name)
 end
 
 
@@ -749,7 +768,7 @@ end)
 
 RegisterNetEvent("qb-mechanicjob:client:SpawnListVehicle",function(data)
     local vehicleSpawnName = data.spawnName
-    SpawnListVehicle(vehicleSpawnName)
+    SpawnListVehicle(vehicleSpawnName, PlayerJob.name)
 end)
 
 RegisterNetEvent("qb-mechanicjob:client:RepairPart",function(data)
@@ -962,8 +981,8 @@ RegisterNetEvent('vehiclemod:client:repairPart', function(part, level, needAmoun
 end)
 
 RegisterNetEvent('qb-mechanicjob:client:target:OpenStash', function ()
-    TriggerEvent("inventory:client:SetCurrentStash", "mechanicstash")
-    TriggerServerEvent("inventory:server:OpenInventory", "stash", "mechanicstash", {
+    TriggerEvent("inventory:client:SetCurrentStash", "m_"..PlayerJob.name)
+    TriggerServerEvent("inventory:server:OpenInventory", "stash", "m_"..PlayerJob.name, {
         maxweight = 4000000,
         slots = 500,
     })
@@ -986,16 +1005,20 @@ CreateThread(function()
         Wait(wait)
     end
 
-    local Blip = AddBlipForCoord(Config.Locations["exit"].x, Config.Locations["exit"].y, Config.Locations["exit"].z)
-    SetBlipSprite (Blip, 446)
-    SetBlipDisplay(Blip, 4)
-    SetBlipScale  (Blip, 0.7)
-    SetBlipAsShortRange(Blip, true)
-    SetBlipColour(Blip, 0)
-    SetBlipAlpha(Blip, 0.7)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(Lang:t('labels.job_blip'))
-    EndTextCommandSetBlipName(Blip)
+	--[[for k,v in pairs(Config.Locations) do
+
+		local Blip = AddBlipForCoord(Config.Locations[k]["exit"].x, Config.Locations[k]["exit"].y, Config.Locations[k]["exit"].z)
+		SetBlipSprite (Blip, 446)
+		SetBlipDisplay(Blip, 4)
+		SetBlipScale  (Blip, 0.7)
+		SetBlipAsShortRange(Blip, true)
+		SetBlipColour(Blip, 0)
+		SetBlipAlpha(Blip, 0.7)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentSubstringPlayerName(Config.Locations[k]["blipname"])
+		EndTextCommandSetBlipName(Blip)
+	
+	end]]
 
     RegisterGarageZone()
     RegisterDutyTarget()
@@ -1072,7 +1095,7 @@ end)
 
 CreateThread(function()
     while true do
-        Wait(10000)
+        Wait(60000)
         if (IsPedInAnyVehicle(PlayerPedId(), false)) then
             local veh = GetVehiclePedIsIn(PlayerPedId(),false)
             if not IsThisModelABicycle(GetEntityModel(veh)) and GetPedInVehicleSeat(veh, -1) == PlayerPedId() then
@@ -1082,14 +1105,16 @@ CreateThread(function()
                 if VehicleStatus[plate] == nil then
                     TriggerServerEvent("vehiclemod:server:setupVehicleStatus", plate, engineHealth, bodyHealth)
                 else
-                    TriggerServerEvent("vehiclemod:server:updatePart", plate, "engine", engineHealth)
-                    TriggerServerEvent("vehiclemod:server:updatePart", plate, "body", bodyHealth)
+                    TriggerServerEvent("vehiclemod:server:updateParts", plate, bodyHealth, engineHealth)
+                    --TriggerServerEvent("vehiclemod:server:updatePart", plate, "body", bodyHealth)
+                    --TriggerServerEvent("vehiclemod:server:updatePart", plate, "engine", engineHealth)
                     effectTimer = effectTimer + 1
                     if effectTimer >= math.random(10, 15) then
                         ApplyEffects(veh)
                         effectTimer = 0
                     end
                 end
+				Wait(10000)
             else
                 effectTimer = 0
                 Wait(1000)

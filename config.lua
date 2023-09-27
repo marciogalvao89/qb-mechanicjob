@@ -77,17 +77,49 @@ Config.Businesses = {
 
 Config.Plates = {
     [1] = {
-        coords = vector4(-340.95, -128.24, 39, 160.0),
+        coords = vector4(-349.95, -131.24, 39, 253.0),
         boxData = {
-            heading = 340,
-            length = 5,
-            width = 2.5,
+            heading = 249,
+            length = 6.5,
+            width = 5,
             debugPoly = false
         },
         AttachedVehicle = nil,
     },
     [2] = {
-        coords = vector4(-327.91, -144.34, 38.86, 70.34),
+        coords = vector4(-346.91, -124.34, 39, 253.34),
+        boxData = {
+            heading = 249,
+            length = 6.5,
+            width = 5,
+            debugPoly = false
+        },
+        AttachedVehicle = nil,
+    },
+    --Mechanic2 - East Customs
+    [3] = {
+        coords = vector4(903.22, -2103.18, 29.98, 354.69),
+        boxData = {
+            heading = 249,
+            length = 6.5,
+            width = 5,
+            debugPoly = false
+        },
+        AttachedVehicle = nil,
+    },
+    --Mechanic2 - Bennys Motorworks
+    [4] = {
+        coords = vector4(-221.77, -1330.38, 30.41, 87.84),
+        boxData = {
+            heading = 249,
+            length = 6.5,
+            width = 5,
+            debugPoly = false
+        },
+        AttachedVehicle = nil,
+    },
+    [5] = {
+        coords = vector4(-182.97, -1319.56, 31.3, 178.6),
         boxData = {
             heading = 249,
             length = 6.5,
@@ -98,18 +130,44 @@ Config.Plates = {
     },
 }
 
+Config.jobs = {
+	["mechanic"] = true,
+	["mechanic2"] = true,
+	["mechanic3"] = true,
+}
+
 Config.Locations = {
-    ["exit"] = vector3(-339.04, -135.53, 39),
-    ["duty"] = vector3(-323.39, -129.6, 39.01),
-    ["stash"] = vector3(-319.49, -131.9, 38.98),
-    ["vehicle"] = vector4(-370.51, -107.88, 38.35, 72.56),
+	["mechanic"] = {
+		["blipname"] = "LS Customs", 
+		["job"] = "mechanic", 
+		["exit"] = vector3(-343.65, -157.42, 44.59),
+		["duty"] = vector3(-342.59, -157.44, 44.59),
+		["stash"] = vector3(-336.07, -158.17, 44.59),
+		["vehicle"] = vector4(-370.51, -107.88, 38.35, 72.56),
+	},
+	["mechanic2"] = {
+		["blipname"] = "East Customs", 
+		["job"] = "mechanic2", 
+		["exit"] = vector3(892.79, -2102.45, 34.89),
+		["duty"] = vector3(892.79, -2102.45, 34.89),
+		["stash"] = vector3(915.7, -2105.02, 30.46),
+		["vehicle"] = vector4(857.04, -2101.05, 30.54, 304.33),
+	},
+	["mechanic3"] = {
+		["blipname"] = "Bennys", 
+		["job"] = "mechanic3", 
+		["exit"] = vector3(-202.26, -1337.27, 34.9),
+		["duty"] = vector3(-202.26, -1337.27, 34.9),
+		["stash"] = vector3(-199.54, -1331.17, 34.9),
+		["vehicle"] = vector4(-231.07, -1282.01, 31.3, 213.36),
+	}
 }
 
 Config.Vehicles = {
-    ["flatbed"] = "Flatbed",
-    ["towtruck"] = "Towtruck",
-    ["minivan"] = "Minivan (Rental Car)",
-    ["blista"] = "Blista",
+    ["flatbed"] = "Reboque",
+    --["towtruck"] = "Towtruck",
+    --["minivan"] = "Minivan (Rental Car)",
+    ["blista"] = "Carro de Empresa",
 }
 
 Config.MinimalMetersForDamage = {

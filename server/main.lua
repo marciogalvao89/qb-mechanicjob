@@ -60,7 +60,7 @@ QBCore.Functions.CreateCallback('qb-vehicletuning:server:IsMechanicAvailable', f
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then
-            if (Player.PlayerData.job.name == "mechanic" and Player.PlayerData.job.onduty) then
+            if (Config.jobs[Player.PlayerData.job.name] and Player.PlayerData.job.onduty) then
                 amount = amount + 1
             end
         end
@@ -154,6 +154,25 @@ RegisterNetEvent('vehiclemod:server:updatePart', function(plate, part, level)
                 VehicleStatus[plate][part] = 100
             end
         end
+        TriggerClientEvent("vehiclemod:client:setVehicleStatus", -1, plate, VehicleStatus[plate])
+    end
+end)
+
+RegisterNetEvent('vehiclemod:server:updateParts', function(plate, bodyHealth, engineHealth)
+    if VehicleStatus[plate] ~= nil then
+            VehicleStatus[plate]["body"] = bodyHealth
+            VehicleStatus[plate]["engine"] = engineHealth
+            if VehicleStatus[plate]["body"] < 0 then
+                VehicleStatus[plate]["body"] = 0
+            elseif VehicleStatus[plate]["body"] > 1000 then
+                VehicleStatus[plate]["body"] = 1000.0
+            end
+			if VehicleStatus[plate]["engine"] < 0 then
+                VehicleStatus[plate]["engine"] = 0
+            elseif VehicleStatus[plate]["engine"] > 1000 then
+                VehicleStatus[plate]["engine"] = 1000.0
+            end
+        
         TriggerClientEvent("vehiclemod:client:setVehicleStatus", -1, plate, VehicleStatus[plate])
     end
 end)

@@ -146,7 +146,7 @@ CreateThread(function()
         end
 
         if invehicle then
-            Wait(2000)
+            Wait(60000)
         else
             Wait(500)
         end
