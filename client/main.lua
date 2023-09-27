@@ -135,7 +135,7 @@ local function RegisterStashTarget()
 			goto zcontinue
 		end
 
-		if PlayerJob.name ~= k then
+if PlayerJob.name ~= k then
 			goto zcontinue
 		end
 		
@@ -530,7 +530,7 @@ local function PartsMenu()
                 end
                 vehicleMenu[#vehicleMenu+1] = {
                     header = v,
-                    txt = "Status: " .. percentage .. ".0% / 100.0%",
+                    txt = Lang:t('parts_menu.status') .. percentage .. ".0% / 100.0%",
                     params = {
                         event = "qb-mechanicjob:client:PartMenu",
                         args = {
@@ -684,7 +684,7 @@ local function VehicleList()
         }
     end
     vehicleMenu[#vehicleMenu+1] = {
-        header = "⬅ Close Menu",
+        header = Lang:t('nodamage_menu.c_menu'),
         txt = "",
         params = {
             event = "qb-menu:client:closeMenu"
@@ -1019,6 +1019,18 @@ CreateThread(function()
 		EndTextCommandSetBlipName(Blip)
 	
 	end]]
+    if Config.Blip['showBlip'] then
+        local Blip = AddBlipForCoord(Config.Locations["exit"].x, Config.Locations["exit"].y, Config.Locations["exit"].z)
+        SetBlipSprite (Blip, Config.Blip['sprite'])
+        SetBlipDisplay(Blip, Config.Blip['display'])
+        SetBlipScale  (Blip, Config.Blip['scale'])
+        SetBlipAsShortRange(Blip, Config.Blip['asShortRange'])
+        SetBlipColour(Blip, Config.Blip['colour'])
+        SetBlipAlpha(Blip, Config.Blip['alpha'])
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName(Lang:t('labels.job_blip'))
+        EndTextCommandSetBlipName(Blip)
+    end
 
     RegisterGarageZone()
     RegisterDutyTarget()

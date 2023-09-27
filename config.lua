@@ -136,6 +136,16 @@ Config.jobs = {
 	["mechanic3"] = true,
 }
 
+Config.Blip = {
+    ['showBlip'] = true, -- change to false if you want to disable blip
+    ['sprite'] = 446,
+    ['display'] = 4,
+    ['scale'] = 0.7,
+    ['asShortRange'] = true,
+    ['colour'] = 0,
+    ['alpha'] = 0.7
+}
+
 Config.Locations = {
 	["mechanic"] = {
 		["blipname"] = "LS Customs", 
